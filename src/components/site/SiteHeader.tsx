@@ -1,6 +1,6 @@
 // @ts-nocheck
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation } from "@/lib/router";
 import { Menu, X, Phone, Mail, ArrowRight } from "lucide-react";
 import Logo from "./Logo";
@@ -8,26 +8,46 @@ import { company, navigation } from "@/data/company";
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const menu = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
 
   useEffect(() => {
     setOpen(false);
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const closeOnDesktop = () => { if (desktop.matches) setOpen(false); };
+    desktop.addEventListener("change", closeOnDesktop);
+    return () => desktop.removeEventListener("change", closeOnDesktop);
   }, [pathname]);
 
   useEffect(() => {
+    const previousFocus = document.activeElement as HTMLElement;
     document.body.style.overflow = open ? "hidden" : "";
+    if (open) menu.current?.querySelector<HTMLButtonElement>("button")?.focus();
     const onKey = (event) => {
       if (event.key === "Escape") setOpen(false);
+      if (!open || event.key !== "Tab") return;
+      const focusable = menu.current?.querySelectorAll<HTMLElement>("a[href], button");
+      if (!focusable?.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
       window.removeEventListener("keydown", onKey);
+      if (open) previousFocus?.focus();
     };
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-brand-line bg-white">
+    <header className="site-header sticky top-0 z-50 border-b border-brand-line bg-white">
       <div className="hidden border-b border-white/10 bg-brand-black md:block">
         <div className="container-x flex h-9 items-center justify-between text-[11px] font-medium tracking-wide text-white/65">
           <p>Ortigas Center, Pasig City &nbsp;·&nbsp; San Fernando City, La Union</p>
@@ -51,9 +71,9 @@ export default function SiteHeader() {
       </div>
 
       <div className="container-x flex h-[72px] items-center justify-between gap-6">
-        <Logo />
+        <Logo variant="light" />
 
-        <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-5 lg:flex">
           {navigation.map((item) => (
             <NavLink
               key={item.to}
@@ -61,7 +81,7 @@ export default function SiteHeader() {
               end={item.to === "/"}
               className={({ isActive }) =>
                 `relative py-2 font-heading text-[12.5px] font-semibold uppercase tracking-[0.09em] transition-colors ${
-                  isActive ? "text-brand-red" : "text-brand-black hover:text-brand-red"
+                  isActive ? "text-brand-red" : "text-white hover:text-brand-red"
                 }`
               }
             >
@@ -100,7 +120,7 @@ export default function SiteHeader() {
       </div>
 
       {open && (
-        <div className="fixed inset-0 z-[60] flex flex-col bg-brand-black lg:hidden">
+        <div ref={menu} role="dialog" aria-modal="true" aria-label="Navigation menu" data-mobile-menu data-lenis-prevent className="fixed inset-0 z-[60] flex flex-col bg-brand-black lg:hidden">
           <div className="flex h-[72px] shrink-0 items-center justify-between px-5">
             <Logo variant="light" />
             <button

@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, MapPin, Info } from "lucide-react";
 import { Image } from "@/components/ui/image";
 import CtaBand from "@/components/site/CtaBand";
 import { getProject, projects } from "@/data/projects";
+import SceneViewport from "@/components/site/SceneViewport";
 
 export default function ProjectDetail() {
   const { slug } = useParams();
@@ -48,14 +49,17 @@ export default function ProjectDetail() {
 
   return (
     <>
-      <section className="relative isolate overflow-hidden bg-brand-black">
+      <section className="cinematic-hero relative isolate overflow-hidden bg-brand-black">
+        <div className="hero-photo" data-parallax>
         <Image
           src={project.image}
           alt={project.title}
-          className="absolute inset-0 h-full w-full object-cover opacity-45"
+          className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-brand-black via-brand-black/85 to-brand-black/40" />
-        <div className="container-x relative z-10 py-16 lg:py-24">
+        </div>
+        <div className="hero-shade absolute inset-0" />
+        <div className="container-x hero-grid relative z-10">
+          <div className="hero-copy">
           <Link
             to="/projects"
             className="inline-flex items-center gap-2 font-heading text-[10.5px] font-bold uppercase tracking-[0.14em] text-white/50 transition-colors hover:text-white"
@@ -66,13 +70,15 @@ export default function ProjectDetail() {
           <p className="mt-8 font-heading text-[10.5px] font-bold uppercase tracking-[0.16em] text-brand-red">
             {project.category}
           </p>
-          <h1 className="mt-3 max-w-3xl text-[30px] font-extrabold uppercase leading-[1.1] text-white sm:text-[44px] lg:text-[52px]">
+          <h1 data-split className="mt-3 max-w-3xl text-[30px] font-extrabold uppercase leading-[1.1] text-white sm:text-[44px] lg:text-[52px]">
             {project.title}
           </h1>
           <p className="mt-4 flex items-center gap-2 text-[13px] text-white/60">
             <MapPin className="h-4 w-4 text-brand-red" aria-hidden="true" />
             {project.location}
           </p>
+          </div>
+          <SceneViewport variant="detail" />
         </div>
       </section>
 

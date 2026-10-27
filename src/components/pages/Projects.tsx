@@ -16,6 +16,7 @@ export default function Projects() {
   return (
     <>
       <PageHero
+        scene="projects"
         eyebrow="Projects"
         title="Documented project experience"
         description="Selected developments across hospitality, aviation, commercial, institutional, and residential sectors."
@@ -43,12 +44,12 @@ export default function Projects() {
             ))}
           </div>
 
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="project-grid mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {visible.map((project, index) => (
               <Reveal key={project.slug} delay={index * 0.04}>
                 <Link
                   to={`/projects/${project.slug}`}
-                  className="group flex h-full flex-col overflow-hidden border border-brand-line transition-colors hover:border-brand-black"
+                  className="project-card group flex h-full flex-col overflow-hidden border border-brand-line transition-colors hover:border-brand-black"
                 >
                   <div className="relative aspect-[3/2] overflow-hidden bg-brand-charcoal">
                     <Image

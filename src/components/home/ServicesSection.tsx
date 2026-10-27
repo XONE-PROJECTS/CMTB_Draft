@@ -26,14 +26,14 @@ export default function ServicesSection() {
           </Link>
         </div>
 
-        <div className="mt-14 grid gap-px bg-brand-line sm:grid-cols-2 lg:grid-cols-3">
+        <div className="service-grid mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
               <Reveal key={service.id} delay={index * 0.05}>
                 <Link
                   to={`/services#${service.id}`}
-                  className="group flex h-full flex-col bg-white transition-colors hover:bg-white"
+                  className="service-card group flex h-full flex-col bg-white transition-colors hover:bg-white"
                 >
                   <div className="relative h-44 overflow-hidden bg-brand-charcoal">
                     <Image

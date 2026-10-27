@@ -10,13 +10,13 @@ export default function CtaBand({
   secondaryLabel = "Contact Our Team",
 }) {
   return (
-    <section className="relative isolate overflow-hidden bg-brand-charcoal">
+    <section className="cta-band relative isolate overflow-hidden bg-brand-charcoal">
       <div className="blueprint-grid-dark absolute inset-0 opacity-70" aria-hidden="true" />
       <div className="absolute left-0 top-0 h-full w-[4px] bg-brand-red" aria-hidden="true" />
       <div className="container-x relative z-10 py-16 sm:py-20 lg:py-24">
         <div className="grid items-end gap-10 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <h2 className="max-w-xl text-[28px] font-extrabold uppercase leading-[1.1] text-white sm:text-[38px] lg:text-[44px]">
+            <h2 data-split className="max-w-xl text-[28px] font-extrabold uppercase leading-[1.1] text-white sm:text-[38px] lg:text-[44px]">
               {headline}
             </h2>
             <p className="mt-5 max-w-lg text-[15px] leading-[1.7] text-white/60">{text}</p>

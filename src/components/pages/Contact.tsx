@@ -14,6 +14,7 @@ export default function Contact() {
   return (
     <>
       <PageHero
+        scene="contact"
         eyebrow="Contact Us"
         title="Discuss your project with our team"
         description="Share your scope, location, and requirements. Inquiries are reviewed by our construction, concrete, and equipment teams."
@@ -107,7 +108,7 @@ export default function Contact() {
           </div>
 
           <div className="lg:col-span-7">
-            <InquiryForm defaultType={defaultType} defaultMessage={defaultMessage} />
+            <InquiryForm key={`${defaultType}:${defaultMessage}`} defaultType={defaultType} defaultMessage={defaultMessage} />
           </div>
         </div>
       </section>

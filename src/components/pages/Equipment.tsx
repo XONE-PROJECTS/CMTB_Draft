@@ -31,6 +31,7 @@ export default function Equipment() {
   return (
     <>
       <PageHero
+        scene="equipment"
         eyebrow="Equipment & Fleet"
         title="Owned equipment resources for project execution"
         description="A fleet spanning earthmoving, road construction, pile-driving, lifting, transport, and concrete production and placement."
@@ -41,7 +42,7 @@ export default function Equipment() {
       <section className="border-b border-brand-line bg-brand-light">
         <div className="container-x py-8">
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-            <div className="flex flex-wrap gap-2">
+            <div className="flex min-w-0 flex-1 flex-wrap gap-2">
               <button
                 type="button"
                 onClick={() => setActive("all")}
@@ -71,7 +72,7 @@ export default function Equipment() {
               ))}
             </div>
 
-            <div className="relative lg:w-72">
+            <div className="relative lg:w-72 lg:shrink-0">
               <Search
                 className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted"
                 aria-hidden="true"
@@ -119,7 +120,7 @@ export default function Equipment() {
 
           <div className="mt-10 space-y-14">
             {sections.map((category) => (
-              <div key={category.id} id={category.id} className="scroll-mt-28">
+              <div key={category.id} id={category.id} className="equipment-category scroll-mt-28">
                 <div className="grid gap-8 border-t-2 border-brand-black pt-8 lg:grid-cols-12 lg:gap-12">
                   <div className="lg:col-span-4">
                     <div className="relative aspect-[4/3] overflow-hidden bg-brand-charcoal">

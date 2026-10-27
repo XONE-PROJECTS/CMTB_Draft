@@ -11,6 +11,7 @@ export default function Services() {
   return (
     <>
       <PageHero
+        scene="services"
         eyebrow="Services"
         title="Construction capability across six service lines"
         description="From general construction and design-build delivery to ready-mix concrete supply and heavy equipment support — coordinated by one delivery organisation."
@@ -18,7 +19,7 @@ export default function Services() {
         imageAlt="Reinforced concrete column base with tied rebar and formwork clamps"
       />
 
-      <nav aria-label="Service sections" className="sticky top-[72px] z-30 border-b border-brand-line bg-white/95 backdrop-blur lg:top-[108px]">
+      <nav data-service-nav aria-label="Service sections" className="sticky top-[72px] z-30 border-b border-brand-line bg-white/95 backdrop-blur lg:top-[108px]">
         <div className="container-x flex gap-6 overflow-x-auto py-4">
           {serviceDetails.map((service) => (
             <a

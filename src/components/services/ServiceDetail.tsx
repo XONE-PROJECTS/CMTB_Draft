@@ -22,12 +22,14 @@ export default function ServiceDetail({ service, index }) {
     <section id={service.id} className={`scroll-mt-28 py-16 lg:py-20 ${reversed ? "bg-brand-light" : "bg-white"}`}>
       <div className="container-x grid gap-10 lg:grid-cols-12 lg:gap-16">
         <Reveal className={`lg:col-span-6 ${reversed ? "lg:order-2" : ""}`}>
-          <div className="relative aspect-[4/3] overflow-hidden bg-brand-charcoal">
+          <div className="photo-frame relative aspect-[4/3] overflow-hidden bg-brand-charcoal">
+            <div className="photo-parallax" data-parallax>
             <Image
               src={service.image}
               alt={service.title}
               className="h-full w-full object-cover"
             />
+            </div>
             <span className="absolute left-0 top-0 bg-brand-red px-3 py-2 font-heading text-[10px] font-bold uppercase tracking-[0.14em] text-white">
               {String(index + 1).padStart(2, "0")}
             </span>

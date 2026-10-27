@@ -57,6 +57,7 @@ export default function Compliance() {
   return (
     <>
       <PageHero
+        scene="compliance"
         eyebrow="Compliance & Credentials"
         title="Registrations, classifications, and assurance"
         description="Documented credentials supporting public and private procurement, with compliance commitments covering safety, quality, and equipment assurance."

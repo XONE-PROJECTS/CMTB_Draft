@@ -17,6 +17,7 @@ export default function About() {
   return (
     <>
       <PageHero
+        scene="about"
         eyebrow="About Us"
         title="An integrated construction and infrastructure solutions partner"
         description="Headquartered in Ortigas Center, Pasig City, with branch operations in San Fernando City, La Union — combining construction execution, engineering, project management, concrete production, and equipment resources."
@@ -62,12 +63,14 @@ export default function About() {
           </div>
 
           <Reveal className="lg:col-span-5">
-            <div className="relative aspect-[3/4] overflow-hidden bg-brand-charcoal">
+            <div className="photo-frame relative aspect-[3/4] overflow-hidden bg-brand-charcoal">
+              <div className="photo-parallax" data-parallax>
               <Image
                 src="https://media.base44.com/images/public/6adf4e1a323dd7f47ef1a45f/bad48ba14_generated_87ae2d4b.png"
                 alt="Close-up of reinforced concrete column base with tied rebar"
                 className="h-full w-full object-cover"
               />
+              </div>
             </div>
             <p className="mt-4 text-[11.5px] leading-relaxed text-brand-muted">
               Illustrative construction imagery. Project photography from the corporate profile will

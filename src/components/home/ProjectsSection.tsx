@@ -4,7 +4,7 @@ import { Link } from "@/lib/router";
 import { ArrowUpRight, MapPin } from "lucide-react";
 import { Image } from "@/components/ui/image";
 import SectionHeading from "@/components/site/SectionHeading";
-import Reveal from "@/components/site/Reveal";
+import ProjectCarousel from "./ProjectCarousel";
 import { projects } from "@/data/projects";
 
 export default function ProjectsSection() {
@@ -25,13 +25,13 @@ export default function ProjectsSection() {
             <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
-
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      </div>
+        <ProjectCarousel>
           {projects.map((project, index) => (
-            <Reveal key={project.slug} delay={index * 0.04}>
+            <div key={project.slug} className="project-carousel-slide" role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${projects.length}`}>
               <Link
                 to={`/projects/${project.slug}`}
-                className="group block overflow-hidden border border-brand-line bg-white transition-colors hover:border-brand-black"
+                className="project-card group block overflow-hidden border border-brand-line bg-white transition-colors hover:border-brand-black"
               >
                 <div className="relative aspect-[3/2] overflow-hidden bg-brand-charcoal">
                   <Image
@@ -52,15 +52,14 @@ export default function ProjectsSection() {
                     <MapPin className="h-3 w-3" aria-hidden="true" />
                     {project.location}
                   </p>
-                  <p className="mt-3 line-clamp-2 text-[13px] leading-relaxed text-brand-gray">
+                  <p className="mt-3 text-[13px] leading-relaxed text-brand-gray">
                     {project.summary}
                   </p>
                 </div>
               </Link>
-            </Reveal>
+            </div>
           ))}
-        </div>
-      </div>
+        </ProjectCarousel>
     </section>
   );
 }

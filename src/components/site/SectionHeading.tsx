@@ -21,6 +21,7 @@ export default function SectionHeading({
         </div>
       )}
       <h2
+        data-split
         className={`mt-5 text-[26px] font-extrabold uppercase leading-[1.12] sm:text-[34px] lg:text-[40px] ${
           invert ? "text-white" : "text-brand-black"
         }`}

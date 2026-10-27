@@ -20,7 +20,16 @@ const FALLBACK_IMAGE_URL =
  * as a plain <img>. Failed transforms retry the original URL; only a broken
  * original swaps to the generic fallback image.
  */
-const Image = React.forwardRef(
+type ImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {
+  fittingType?: "fill" | "fit";
+  originWidth?: number;
+  originHeight?: number;
+  focalPointX?: number;
+  focalPointY?: number;
+  quality?: number;
+};
+
+const Image = React.forwardRef<HTMLImageElement, ImageProps>(
   (
     {
       src: source,
