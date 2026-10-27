@@ -54,38 +54,48 @@ describe("project highlights carousel", () => {
 
   it("advances automatically, wraps in both directions and exposes one keyboard link", () => {
     expect(slides.filter(slide => slide.style.display !== "none")).toHaveLength(5);
-    vi.advanceTimersByTime(6800); expect(host.dataset.active).toBe("1");
+    vi.advanceTimersByTime(4300); expect(host.dataset.active).toBe("1");
     key("ArrowLeft"); vi.advanceTimersByTime(800); expect(host.dataset.active).toBe("0");
     key("ArrowLeft"); vi.advanceTimersByTime(800); expect(host.dataset.active).toBe("5");
     key("ArrowRight"); vi.advanceTimersByTime(800); expect(host.dataset.active).toBe("0");
     expect(slides.filter(slide => slide.querySelector("a")!.tabIndex === 0)).toHaveLength(1);
   });
 
-  it("pauses for keyboard focus and starts a fresh six-second timer afterwards", () => {
+  it("pauses for keyboard focus and starts a fresh 3.5-second timer afterwards", () => {
     host.dispatchEvent(new Event("focusin")); vi.advanceTimersByTime(14000); expect(host.dataset.active).toBe("0");
     host.dispatchEvent(Object.assign(new Event("focusout"), { relatedTarget: null }));
-    vi.advanceTimersByTime(5900); expect(host.dataset.active).toBe("0");
+    vi.advanceTimersByTime(3400); expect(host.dataset.active).toBe("0");
     vi.advanceTimersByTime(1000); expect(host.dataset.active).toBe("1");
   });
 
   it("keeps autoplay running on hover and resumes after a mouse drag", () => {
-    host.dispatchEvent(new Event("pointerenter")); vi.advanceTimersByTime(6800); expect(host.dataset.active).toBe("1");
+    host.dispatchEvent(new Event("pointerenter")); vi.advanceTimersByTime(4300); expect(host.dataset.active).toBe("1");
     pointer("pointerdown", 100); pointer("pointermove", 40); pointer("pointerup", 40);
     vi.advanceTimersByTime(800); expect(host.dataset.active).toBe("2");
-    vi.advanceTimersByTime(6800); expect(host.dataset.active).toBe("3");
+    vi.advanceTimersByTime(4300); expect(host.dataset.active).toBe("3");
   });
 
   it("retains explicit pause through hover changes", () => {
     key(" "); host.dispatchEvent(new Event("pointerleave")); vi.advanceTimersByTime(15000);
     expect(host.dataset.active).toBe("0"); expect(host.dataset.paused).toBe("true");
-    key(" "); vi.advanceTimersByTime(6800); expect(host.dataset.active).toBe("1");
+    key(" "); vi.advanceTimersByTime(4300); expect(host.dataset.active).toBe("1");
   });
 
   it("suspends timers offscreen and in background tabs", () => {
     intersection([{ isIntersecting: false }]); vi.advanceTimersByTime(12000); expect(host.dataset.active).toBe("0");
     intersection([{ isIntersecting: true }]); page.hidden = true; page.dispatchEvent(new Event("visibilitychange"));
     vi.advanceTimersByTime(12000); expect(host.dataset.active).toBe("0");
-    page.hidden = false; page.dispatchEvent(new Event("visibilitychange")); vi.advanceTimersByTime(6800); expect(host.dataset.active).toBe("1");
+    page.hidden = false; page.dispatchEvent(new Event("visibilitychange")); vi.advanceTimersByTime(4300); expect(host.dataset.active).toBe("1");
+  });
+
+  it("recesses and scales side cards behind the featured card and keeps five visible while advancing", () => {
+    const matrix = (slide: ElementStub) => slide.style.transform.match(/matrix3d\(([^)]+)\)/)[1].split(",").map(Number);
+    const center = matrix(slides[0]), near = matrix(slides[1]), far = matrix(slides[2]);
+    const scale = (value: number[]) => Math.hypot(...value.slice(0, 3));
+    expect(near[14]).toBeLessThan(center[14]); expect(far[14]).toBeLessThan(near[14]);
+    expect(scale(near)).toBeLessThan(scale(center)); expect(scale(far)).toBeLessThan(scale(near));
+    vi.advanceTimersByTime(3750);
+    expect(slides.filter(slide => slide.style.display !== "none")).toHaveLength(5);
   });
 
   it("distinguishes links, horizontal swipes, and vertical page scrolling", () => {

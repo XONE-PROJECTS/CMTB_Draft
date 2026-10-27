@@ -23,10 +23,14 @@ export function createProjectCarousel(host: HTMLDivElement) {
     const active = index();
     objects.forEach((object, i) => {
       const distance = MathUtils.euclideanModulo(i - position + slides.length / 2, slides.length) - slides.length / 2;
-      object.position.set(distance * spacing, 0, -Math.abs(distance) * 120);
-      object.rotation.y = -MathUtils.clamp(distance, -1, 1) * Math.PI * 35 / 180;
-      object.visible = Math.abs(distance) < 2.6;
-      object.element.style.opacity = String(1 - Math.min(Math.abs(distance), 1) * 0.25);
+      const depth = Math.abs(distance);
+      const slot = MathUtils.euclideanModulo(i - active + slides.length / 2, slides.length) - slides.length / 2;
+      object.position.set(distance * spacing, depth * 26, -depth * 240);
+      object.rotation.y = -MathUtils.clamp(distance, -1, 1) * Math.PI / 10;
+      object.scale.setScalar(0.88 ** depth);
+      object.visible = Math.abs(slot) <= 2;
+      object.element.style.opacity = String(Math.max(0.4, 1 - depth * 0.22));
+      object.element.dataset.featured = String(i === active);
       object.element.setAttribute("aria-hidden", String(i !== active));
       object.element.querySelector("a")!.tabIndex = i === active ? 0 : -1;
     });
@@ -38,7 +42,7 @@ export function createProjectCarousel(host: HTMLDivElement) {
     clearTimeout(timer);
     host.dataset.paused = String(paused);
     if (available() && !paused && !focused && !drag && position === target) {
-      timer = setTimeout(() => go(target + 1), 6000);
+      timer = setTimeout(() => go(target + 1), 3500);
     }
   }
   function tick(time: number) {
@@ -64,7 +68,7 @@ export function createProjectCarousel(host: HTMLDivElement) {
     const containerWidth = host.clientWidth;
     if (!containerWidth) return;
     width = containerWidth >= 768 ? Math.min(480, containerWidth * 0.32) : containerWidth - 48;
-    spacing = containerWidth >= 768 ? containerWidth * 0.235 : width * 0.86 + 24;
+    spacing = containerWidth >= 768 ? containerWidth * 0.32 : width * 0.86 + 24;
     slides.forEach(slide => { slide.style.width = `${width}px`; slide.style.height = "auto"; slide.style.display = ""; });
     const cardHeight = Math.max(...slides.map(slide => slide.offsetHeight));
     slides.forEach(slide => { slide.style.height = `${cardHeight}px`; });
@@ -134,7 +138,7 @@ export function createProjectCarousel(host: HTMLDivElement) {
     listeners.forEach(([name, callback, capture]) => host.removeEventListener(name, callback, capture));
     scene.clear();
     slides.forEach(slide => {
-      slide.removeAttribute("style"); slide.removeAttribute("aria-hidden");
+      slide.removeAttribute("style"); slide.removeAttribute("aria-hidden"); delete slide.dataset.featured;
       slide.querySelector("a")!.removeAttribute("tabindex");
       list.appendChild(slide);
     });

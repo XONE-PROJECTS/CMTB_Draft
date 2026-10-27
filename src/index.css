@@ -274,6 +274,7 @@
 .public-site .project-carousel-slide > a { display: flex; flex-direction: column; height: 100%; border: 1px solid var(--color-border); }
 .public-site .project-carousel-slide > a > div:first-child { flex-shrink: 0; }
 .public-site .project-carousel-slide > a > div:last-child { flex: 1; }
+.public-site .project-carousel-slide[data-featured="true"] > a { box-shadow: 0 16px 36px #11191d1a; }
 .public-site .project-carousel[data-enhanced="true"] { touch-action: pan-y; cursor: grab; }
 .public-site .project-carousel[data-enhanced="true"] .project-carousel-list { display: none; }
 .public-site .project-carousel-stage { position: absolute; inset: 0; }
