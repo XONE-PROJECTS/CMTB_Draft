@@ -16,3 +16,5 @@ create table if not exists public.inquiries (
 alter table public.inquiries enable row level security;
 
 revoke all on table public.inquiries from anon, authenticated;
+
+grant all on table public.inquiries to service_role;
